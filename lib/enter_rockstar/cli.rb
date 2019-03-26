@@ -30,18 +30,24 @@ module EnterRockstar
       scraper.print_indexed_tree
     end
 
-    desc 'tokenize DATA_DIR', 'take the downloaded lyrics text files and tokenize them'
-    def tokenize(data_dir)
-      tokenizer = EnterRockstar::Corpus::Tokenizer.new(data_dir: data_dir)
+    desc 'tokenize NAME DATA_DIR', 'take the downloaded lyrics text files and tokenize them'
+    def tokenize(name, data_dir)
+      tokenizer = EnterRockstar::Corpus::Tokenizer.new(data_dir: data_dir, name: name)
       tokenizer.tokenize
+      tokenizer.save_all
     end
 
-    desc 'poetic NUMBER', 'generate a poetic representation of a number from the word base'
-    def poetic(number)
-      generator = EnterRockstar::Generator::Poetic.new
-      results = generator.number(123)
+    desc 'poetic NUMBER SOURCE_JSON', 'generate a poetic representation of a number from the word base'
+    option :amount, desc: 'how many number representations should be generated'
+    option :strategy, desc: "generating strategy. One of: [random weighted]"
+    def poetic(number, source_json)
+      amount = options[:amount] || 5
+      strategy = options[:strategy] || 'random'
 
-      say results
+      generator = EnterRockstar::Generator::Poetic.new(data_file: source_json, amount: amount, strategy: strategy)
+      results = generator.number(number)
+
+      say results.join("\n")
     end
   end
 end

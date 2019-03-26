@@ -5,6 +5,20 @@
 
 This is a set of tools that help Rockstar programmers create programs in the [Rockstar language](https://github.com/RockstarLang/rockstar).
 
+Basically this allows you (with some setup) to do something like this:
+
+```
+$ enter-rockstar poetic 561 lyrics_data/sentenced_tokens.json
+agony faster desperation
+swept dismay mothafuckin
+knees desire melancholic
+fears facial destruction
+doing sweats generations
+
+```
+
+Which helps greatly with writing cool looking Rockstar programs.
+
 For details on what is done and what I'm still working on, see the TODO.md and CHANGELOG.md files.
 
 ## Installation
@@ -43,6 +57,12 @@ After this command finishes (which might take a long time depending on what cate
 
 Now that you have a set of lyrics, it's time to convert them into something that Enter Rockstar can use.
 
+```
+$ enter-rockstar tokenize power_metal lyrics/
+```
+
+Depending on the amount of lyrics you feed into this command, this can take a lot of time. You should also be aware that lyrics that aren't in English will be skipped, as Rockstar isn't really supporting other human languages right now.
+
 ## Generating lyrics
 
 ### Finding words for poetic literals
@@ -50,10 +70,10 @@ Now that you have a set of lyrics, it's time to convert them into something that
 The most common and basic function of Enter Rockstar is just finding interesting words of good length to use in the poetic numeral representations. Finding out what words to use to represent `123` is not as easy as it might sound and this makes it easier:
 
 ```
-$ enter-rockstar poetic 123
+$ enter-rockstar poetic 123 lyrics_data/power_metal_tokens.json --amount 10
 ```
 
-
+The second argument should be a json tokens list generated in a previous step. You can also skip it, at which point Enter Rockstar will use its built-in list generated from Heavy Metal category.
 
 ## Contributing
 

@@ -11,3 +11,7 @@
 .rspec_status
 .DS_Store
 *.gem
+
+# lyrics data
+lyrics/
+lyrics.zip

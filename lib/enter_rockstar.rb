@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'enter_rockstar/scraper/wikia'
+require 'enter_rockstar/corpus/tokenizer'
+require 'enter_rockstar/generator/poetic'
 require 'pry'
 
 module EnterRockstar

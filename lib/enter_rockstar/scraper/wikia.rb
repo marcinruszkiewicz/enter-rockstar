@@ -3,6 +3,7 @@
 require 'open-uri'
 require 'nokogiri'
 require 'json'
+require 'zlib'
 
 module EnterRockstar
   module Scraper
@@ -16,7 +17,7 @@ module EnterRockstar
 
       def initialize(category_name: 'heavy_metal', url: '/wiki/Category:Genre/Heavy_Metal', data_dir: 'lyrics_data')
         @tree = {}
-        @output = "#{data_dir}/wikia_#{category_name}.json"
+        @output = "#{data_dir}/wikia_#{category_name}.json.gz"
         @url = url
         @category_name = category_name
       end
@@ -51,13 +52,13 @@ module EnterRockstar
       def save_category
         puts
         out = File.new(@output, 'w')
-        out.write @tree.to_json
+        out.write Zlib.gzip(@tree.to_json)
         out.close
         puts "Saved JSON data to #{@output}"
       end
 
       def load_saved_json
-        file = File.read(@output)
+        file = Zlib.gunzip IO.read(@output)
         @tree = JSON.parse(file)
         @new_tree = JSON.parse(file)
       end
