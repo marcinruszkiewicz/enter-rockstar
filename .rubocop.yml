@@ -1,0 +1,11 @@
+AllCops:
+  TargetRubyVersion: 2.3
+
+Metrics:
+  Enabled: false
+
+Style/RescueModifier:
+  Enabled: false
+
+Lint/InterpolationCheck:
+  Enabled: false

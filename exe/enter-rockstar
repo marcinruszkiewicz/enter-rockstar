@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'rubygems'
+require 'bundler/setup'
+require 'enter_rockstar'
+require 'enter_rockstar/cli'
+
+EnterRockstar::CLI.start(ARGV)
