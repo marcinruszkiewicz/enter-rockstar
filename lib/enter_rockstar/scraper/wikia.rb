@@ -149,7 +149,7 @@ module EnterRockstar
         if File.exist? @output
           data = Zlib.gunzip IO.read(@output)
         elsif File.exist? @output.sub('.gz', '')
-          data = IO.read(@output)
+          data = IO.read(@output.sub('.gz', ''))
         else
           raise IOError, "File not found: #{@output}"
         end
