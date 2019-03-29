@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 RSpec.describe EnterRockstar::Scraper::Wikia do
   context 'category page scraping' do
     let(:category_name) { 'power_metal' }
     let(:url) { '/wiki/Category:Genre/Power_Metal' }
     let(:json_source) { file_fixture('spec/fixtures/wikia_power_metal.json.gz').read }
-    let(:expected_tree) { JSON.parse Zlib::GzipReader.new(StringIO.new(json_source)).read }
+    let(:expected_tree) { JSON.parse gunzip(json_source) }
 
     let(:scraper) do
       EnterRockstar::Scraper::Wikia.new(

@@ -6,15 +6,16 @@ module EnterRockstar
   module Generator
     # lyrics scraper for lyrics.wikia.com
     class Poetic
-
       STRATEGIES = {
         'random' => '_random'
-      }
+      }.freeze
 
-      def initialize(data_file:, amount: 1, strategy: 'random')
-        @tokens = JSON.parse(Zlib.gunzip(IO.read(data_file)))
-        @amount = amount.to_i
-        @strategy = STRATEGIES[strategy]
+      attr_reader :tokens, :amount, :strategy
+
+      def initialize(data_file:, amount: 5, strategy: 'random')
+        @tokens = JSON.parse EnterRockstar::Utils.load_json(data_file)
+        @amount = Float(amount) rescue 5
+        @strategy = STRATEGIES[strategy] || '_random'
       end
 
       def number(num)

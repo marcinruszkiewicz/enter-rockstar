@@ -58,8 +58,8 @@ module EnterRockstar
       end
 
       def load_saved_json
-        @tree = JSON.parse(load_json)
-        @new_tree = JSON.parse(load_json)
+        @tree = JSON.parse(EnterRockstar::Utils.load_json(@output))
+        @new_tree = JSON.parse(EnterRockstar::Utils.load_json(@output))
       end
 
       def print_indexed_tree
@@ -141,20 +141,6 @@ module EnterRockstar
           out.write proper_text
           out.close
         end
-      end
-
-      private
-
-      def load_json
-        if File.exist? @output
-          data = Zlib::GzipReader.new(StringIO.new(IO.read(@output))).read
-        elsif File.exist? @output.sub('.gz', '')
-          data = IO.read(@output.sub('.gz', ''))
-        else
-          raise IOError, "File not found: #{@output}"
-        end
-
-        data
       end
     end
   end

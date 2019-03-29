@@ -10,7 +10,7 @@ require 'vcr'
 
 VCR.configure do |config|
   config.configure_rspec_metadata!
-  config.cassette_library_dir = "spec/vcr_cassettes"
+  config.cassette_library_dir = 'spec/vcr_cassettes'
   config.hook_into :webmock
   config.default_cassette_options = {
     record: :once
@@ -36,6 +36,10 @@ def file_fixture(fixture_name)
     path
   else
     msg = "the directory '%s' does not contain a file named '%s'"
-    raise ArgumentError, msg % [file_fixture_path, fixture_name]
+    raise ArgumentError, format(msg, [file_fixture_path, fixture_name])
   end
+end
+
+def gunzip(string)
+  Zlib::GzipReader.new(StringIO.new(string)).read
 end

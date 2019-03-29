@@ -14,7 +14,7 @@ Other:
 - [ ] Test the wikia scraper fully
 - [ ] Test generating poetic representations
 - [ ] Test CLI
-- [ ] Fix tests on Ruby 2.3 and 2.4
+- [x] Fix tests on Ruby 2.3 and 2.4
 - [ ] Make sure that the basic tokens gzip is distributed with the gem so it's actually useful without spending
       a day on scraping wikia
 
