@@ -55,8 +55,30 @@ RSpec.describe EnterRockstar::Generator::Poetic do
   end
 
   context '#number' do
-    context 'random strategy' do
+    let(:generator) do
+      EnterRockstar::Generator::Poetic.new(
+        data_file: 'spec/fixtures/single_tokens.json.gz',
+        amount: 1,
+        strategy: strategy
+      )
+    end
 
+    context 'random strategy' do
+      it 'converts string to poetic' do
+        expect(generator.number('705')).to eq ['journey collective world']
+      end
+
+      it 'converts integer to poetic' do
+        expect(generator.number(705)).to eq ['journey collective world']
+      end
+
+      it 'converts string with a decimal to poetic' do
+        expect(generator.number('705.4')).to eq ['journey collective world . what']
+      end
+
+      it 'converts a decimal to poetic' do
+        expect(generator.number(705.4)).to eq ['journey collective world . what']
+      end
     end
   end
 end

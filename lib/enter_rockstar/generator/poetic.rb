@@ -14,13 +14,13 @@ module EnterRockstar
 
       def initialize(data_file:, amount: 5, strategy: 'random')
         @tokens = JSON.parse EnterRockstar::Utils.load_json(data_file)
-        @amount = Float(amount) rescue 5
+        @amount = Integer(amount) rescue 5
         @strategy = STRATEGIES[strategy] || '_random'
       end
 
       def number(num)
         # split the number into parts
-        array = num.split(/\B/)
+        array = num.to_s.split(/\B|\b/)
 
         all_results = []
         @amount.times do
@@ -36,6 +36,11 @@ module EnterRockstar
       def _random(array)
         result = []
         array.each do |digit|
+          if digit == '.'
+            result << '.'
+            next
+          end
+
           # digits less than 4 should use longer words
           digit = digit.to_i < 4 ? (digit.to_i + 10).to_s : digit
           result << @tokens[digit].sample
