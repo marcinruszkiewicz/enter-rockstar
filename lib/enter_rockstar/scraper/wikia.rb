@@ -24,7 +24,7 @@ module EnterRockstar
 
       def parse_category(url: nil, test_limit: false)
         url ||= START_HOST + @url
-        html = URI.open(url)
+        html = URI.parse(url).open
         doc = Nokogiri::HTML(html)
 
         # get all category member links and sort them by band and album
@@ -147,7 +147,7 @@ module EnterRockstar
 
       def load_json
         if File.exist? @output
-          data = Zlib.gunzip IO.read(@output)
+          data = Zlib::GzipReader.new(StringIO.new(IO.read(@output))).read
         elsif File.exist? @output.sub('.gz', '')
           data = IO.read(@output.sub('.gz', ''))
         else
