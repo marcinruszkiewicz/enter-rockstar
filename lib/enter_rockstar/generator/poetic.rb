@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require 'zlib'
-
 module EnterRockstar
   module Generator
-    # lyrics scraper for lyrics.wikia.com
+    # poetic number generator
     class Poetic
       STRATEGIES = {
         'random' => '_random'

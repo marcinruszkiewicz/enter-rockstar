@@ -2,7 +2,6 @@
 
 require 'whatlanguage'
 require 'ruby-progressbar'
-require 'zlib'
 
 module EnterRockstar
   module Corpus
@@ -20,7 +19,7 @@ module EnterRockstar
       def tokenize
         text_files = Dir.glob("#{@data_dir}/**/*.txt")
         puts "Parsing #{text_files.count} files."
-        progressbar = ProgressBar.create(title: "Progress", total: text_files.count)
+        progressbar = ProgressBar.create(title: 'Progress', total: text_files.count)
 
         text_files.each do |filename|
           # read the lyrics and tokenize the words
@@ -54,25 +53,11 @@ module EnterRockstar
       end
 
       def save_all
-        _save_stats
-        _save_tokens
+        EnterRockstar::Utils.save_file(@output_tokens, @tokens.to_json)
+        EnterRockstar::Utils.save_file(@output_stats, @stats.to_json)
       end
 
       private
-
-      def _save_tokens
-        out = File.new(@output_tokens, 'w')
-        out.write Zlib.gzip(@tokens.to_json)
-        out.close
-        puts "Saved JSON data to #{@output_tokens}"
-      end
-
-      def _save_stats
-        out = File.new(@output_stats, 'w')
-        out.write Zlib.gzip(@stats.to_json)
-        out.close
-        puts "Saved JSON data to #{@output_stats}"
-      end
 
       def _to_tokens(text)
         text.downcase.split(/[^[[:alpha:]]]+/).reject(&:empty?).map(&:to_sym)

@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'json'
+require 'zlib'
+
 require 'enter_rockstar/utils'
 require 'enter_rockstar/scraper/wikia'
 require 'enter_rockstar/corpus/tokenizer'

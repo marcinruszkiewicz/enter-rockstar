@@ -2,8 +2,6 @@
 
 require 'open-uri'
 require 'nokogiri'
-require 'json'
-require 'zlib'
 
 module EnterRockstar
   module Scraper
@@ -50,16 +48,11 @@ module EnterRockstar
       end
 
       def save_category
-        puts
-        out = File.new(@output, 'w')
-        out.write Zlib.gzip(@tree.to_json)
-        out.close
-        puts "Saved JSON data to #{@output}"
+        EnterRockstar::Utils.save_file(@output, @tree.to_json)
       end
 
       def load_saved_json
         @tree = JSON.parse(EnterRockstar::Utils.load_json(@output))
-        @new_tree = JSON.parse(EnterRockstar::Utils.load_json(@output))
       end
 
       def print_indexed_tree
@@ -78,15 +71,12 @@ module EnterRockstar
             dirname = k == 'band_url' ? [DATA_DIR, @category_name, key].join('/') : [DATA_DIR, @category_name, key, k].join('/')
             FileUtils.mkdir_p dirname
 
-            parse_page(v, dirname, key)
+            parse_page(v, dirname)
           end
         end
-
-        @tree = @new_tree
-        save_category
       end
 
-      def parse_page(url, dirname, band)
+      def parse_page(url, dirname)
         puts url
         sleep SLEEP_BETWEEN_REQUESTS
         html = URI.open(START_HOST + url)
@@ -104,7 +94,6 @@ module EnterRockstar
             # some band pages have extra albums that are not listed in the category page for some reason
             album_dirname = [dirname, album.text].join('/')
             FileUtils.mkdir_p album_dirname
-            @new_tree[band][album.text] = album.attr('href')
 
             # get song pages
             album.parent.parent.css('+ div + ol > li a').each do |song|
@@ -131,16 +120,10 @@ module EnterRockstar
 
         lyrics = doc.css('div.lyricbox').first
         return if lyrics.nil?
+        return if lyrics.css('a')&.first&.attr('href') == '/wiki/Category:Instrumental'
 
-        if lyrics.css('a')&.first&.attr('href') == '/wiki/Category:Instrumental'
-          # instrumental song, whatever
-        else
-          proper_text = lyrics.inner_html.gsub(%r{<div.*?(\/div>)}, '').split('<br>').join("\n")
-
-          out = File.new(songfile, 'w')
-          out.write proper_text
-          out.close
-        end
+        proper_text = lyrics.inner_html.gsub(%r{<div.*?(\/div>)}, '').split('<br>').join("\n")
+        EnterRockstar::Utils.save_file(songfile, proper_text)
       end
     end
   end
