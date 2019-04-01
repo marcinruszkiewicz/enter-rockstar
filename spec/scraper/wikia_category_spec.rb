@@ -2,6 +2,7 @@
 
 RSpec.describe EnterRockstar::Scraper::Wikia do
   context 'category page scraping' do
+    let(:data_dir) { 'spec/fixtures' }
     let(:category_name) { 'power_metal' }
     let(:url) { '/wiki/Category:Genre/Power_Metal' }
     let(:json_source) { file_fixture('spec/fixtures/wikia_power_metal.json.gz').read }
@@ -11,8 +12,17 @@ RSpec.describe EnterRockstar::Scraper::Wikia do
       EnterRockstar::Scraper::Wikia.new(
         category_name: category_name,
         url: url,
-        data_dir: 'spec/fixtures'
+        data_dir: data_dir
       )
+    end
+
+    describe '#initialize' do
+      it 'creates instance variables' do
+        expect(scraper.tree).to eq({})
+        expect(scraper.url).to eq url
+        expect(scraper.output).to eq "#{data_dir}/wikia_#{category_name}.json.gz"
+        expect(scraper.category_name).to eq category_name
+      end
     end
 
     describe '#parse_category' do
@@ -35,7 +45,7 @@ RSpec.describe EnterRockstar::Scraper::Wikia do
           EnterRockstar::Scraper::Wikia.new(
             category_name: 'power_metal_ungzipped',
             url: url,
-            data_dir: 'spec/fixtures'
+            data_dir: data_dir
           )
         end
 
@@ -51,7 +61,7 @@ RSpec.describe EnterRockstar::Scraper::Wikia do
           EnterRockstar::Scraper::Wikia.new(
             category_name: 'wrong_category_name',
             url: url,
-            data_dir: 'spec/fixtures'
+            data_dir: data_dir
           )
         end
 
@@ -75,6 +85,7 @@ RSpec.describe EnterRockstar::Scraper::Wikia do
 
         FakeFS.with_fresh do
           scraper.save_category
+
           expect(File.exist?("wikia_#{category_name}.json.gz")).to eq true
         end
       end

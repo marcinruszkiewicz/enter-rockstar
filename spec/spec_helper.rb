@@ -36,8 +36,8 @@ def file_fixture(fixture_name)
   if path.exist?
     path
   else
-    msg = "the directory '%s' does not contain a file named '%s'"
-    raise ArgumentError, format(msg, [file_fixture_path, fixture_name])
+    msg = "file does not exist: '%s'"
+    raise ArgumentError, format(msg, fixture_name)
   end
 end
 

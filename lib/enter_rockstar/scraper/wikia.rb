@@ -11,7 +11,7 @@ module EnterRockstar
       DATA_DIR = 'lyrics'
       SLEEP_BETWEEN_REQUESTS = 0.1
 
-      attr_reader :tree
+      attr_reader :tree, :url, :category_name, :output
 
       def initialize(category_name: 'heavy_metal', url: '/wiki/Category:Genre/Heavy_Metal', data_dir: 'lyrics_data')
         @tree = {}
@@ -97,7 +97,10 @@ module EnterRockstar
 
             # get song pages
             album.parent.parent.css('+ div + ol > li a').each do |song|
-              parse_song(song.attr('href'), album_dirname, song.text) if song&.attr('href')
+              next unless song&.attr('href')
+
+              lyrics = parse_song(song.attr('href'), album_dirname, song.text)
+              save_song("#{album_dirname}/#{song.text}.txt", lyrics) if lyrics.present?
             end
             puts
           end
@@ -122,8 +125,11 @@ module EnterRockstar
         return if lyrics.nil?
         return if lyrics.css('a')&.first&.attr('href') == '/wiki/Category:Instrumental'
 
-        proper_text = lyrics.inner_html.gsub(%r{<div.*?(\/div>)}, '').split('<br>').join("\n")
-        EnterRockstar::Utils.save_file(songfile, proper_text)
+        lyrics.inner_html.split('<br>').join("\n").gsub(%r{<\/?[^>]*>}, '')
+      end
+
+      def save_song(songfile, contents)
+        EnterRockstar::Utils.save_plain(songfile, contents)
       end
     end
   end

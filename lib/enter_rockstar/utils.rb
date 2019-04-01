@@ -25,5 +25,12 @@ module EnterRockstar
       end
       puts "Saved as #{filename}"
     end
+
+    def self.save_plain(filename, contents)
+      File.open(filename, 'w') do |f|
+        f.write contents
+      end
+      puts "Saved as #{filename}"
+    end
   end
 end
