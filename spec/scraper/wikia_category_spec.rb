@@ -60,5 +60,24 @@ RSpec.describe EnterRockstar::Scraper::Wikia do
         end
       end
     end
+
+    describe '#save_category' do
+      let(:scraper) do
+        EnterRockstar::Scraper::Wikia.new(
+          category_name: category_name,
+          url: url,
+          data_dir: '.'
+        )
+      end
+
+      it 'saves a gzipped json file', :vcr do
+        scraper.parse_category(test_limit: true)
+
+        FakeFS.with_fresh do
+          scraper.save_category
+          expect(File.exist?("wikia_#{category_name}.json.gz")).to eq true
+        end
+      end
+    end
   end
 end

@@ -7,6 +7,7 @@ require 'enter_rockstar'
 require 'enter_rockstar/cli'
 require 'pry'
 require 'vcr'
+require 'fakefs/spec_helpers'
 
 VCR.configure do |config|
   config.configure_rspec_metadata!
