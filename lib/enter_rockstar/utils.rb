@@ -18,9 +18,11 @@ module EnterRockstar
     end
 
     def self.save_file(filename, contents)
-      outfile = File.new(filename, 'w')
-      outfile.write Zlib.gzip(contents)
-      outfile.close
+      File.open(filename, 'w') do |f|
+        gz = Zlib::GzipWriter.new(f)
+        gz.write contents
+        gz.close
+      end
       puts "Saved as #{filename}"
     end
   end
