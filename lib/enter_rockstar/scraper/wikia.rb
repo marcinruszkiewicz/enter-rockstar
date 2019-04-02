@@ -79,7 +79,7 @@ module EnterRockstar
       def parse_page(url, dirname)
         puts url
         sleep SLEEP_BETWEEN_REQUESTS
-        html = URI.open(START_HOST + url)
+        html = URI.parse(START_HOST + url).open
         doc = Nokogiri::HTML(html)
 
         if doc.css('h2 span.mw-headline a').count.zero?
@@ -118,7 +118,7 @@ module EnterRockstar
 
         print '.'
         sleep SLEEP_BETWEEN_REQUESTS
-        html = URI.open(START_HOST + url)
+        html = URI.parse(START_HOST + url).open
         doc = Nokogiri::HTML(html)
 
         lyrics = doc.css('div.lyricbox').first
