@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe EnterRockstar::Scraper::Wikia do
-  context 'album page scraping' do
+  context 'album page scraping', :vcr do
     let(:data_dir) { 'spec/tmp' }
     let(:category_name) { 'power_metal' }
     let(:url) { '/wiki/Category:Genre/Power_Metal' }
@@ -15,7 +15,7 @@ RSpec.describe EnterRockstar::Scraper::Wikia do
       )
     end
 
-    describe '#parse_song', :vcr do
+    describe '#parse_song' do
       let(:song_url) { '/wiki/Amaranthe:The_Score' }
       let(:song_dirname) { '.' }
       let(:song_name) { 'The Score' }
@@ -43,10 +43,36 @@ RSpec.describe EnterRockstar::Scraper::Wikia do
     end
 
     describe '#parse_page' do
+      let(:data_dir) { 'spec/tmp' }
+      let(:album_url) { '/wiki/Sentenced:North_From_Here_(1993)' }
+      let(:band_url) { '/wiki/Sentenced' }
 
+      before do
+        FileUtils.rm_rf('spec/tmp')
+      end
+
+      context 'single album page' do
+        it 'parses all songs' do
+          scraper.parse_page(album_url, data_dir)
+          expect(File.exist?('spec/tmp/The Glow of 1000 Suns.txt')).to eq true
+        end
+
+        it 'skips songs that do not have links' do
+          scraper.parse_page(album_url, data_dir)
+
+          expect(File.exist?('spec/tmp/Amok Run.txt')).to eq false
+        end
+      end
+
+      context 'band page' do
+        it 'parses all albums' do
+          scraper.parse_page(band_url, data_dir)
+          expect(File.exist?('spec/tmp/The Funeral Album (2005)/End of the Road.txt')).to eq true
+        end
+      end
     end
 
-    describe '#parse_all_pages' do
+    xdescribe '#parse_all_pages' do
 
     end
   end

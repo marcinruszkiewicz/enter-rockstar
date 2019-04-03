@@ -41,13 +41,7 @@ RSpec.describe EnterRockstar::Scraper::Wikia do
       end
 
       context 'if gzipped json is not available' do
-        let(:scraper) do
-          EnterRockstar::Scraper::Wikia.new(
-            category_name: 'power_metal_ungzipped',
-            url: url,
-            data_dir: data_dir
-          )
-        end
+        let(:category_name) { 'power_metal_ungzipped' }
 
         it 'tries to fall back on ungzipped json' do
           scraper.load_saved_json
@@ -57,13 +51,7 @@ RSpec.describe EnterRockstar::Scraper::Wikia do
       end
 
       context 'if no file found' do
-        let(:scraper) do
-          EnterRockstar::Scraper::Wikia.new(
-            category_name: 'wrong_category_name',
-            url: url,
-            data_dir: data_dir
-          )
-        end
+        let(:category_name) { 'wrong_category_name' }
 
         it 'raises IOError' do
           expect { scraper.load_saved_json }.to raise_error IOError
@@ -72,13 +60,7 @@ RSpec.describe EnterRockstar::Scraper::Wikia do
     end
 
     describe '#save_category' do
-      let(:scraper) do
-        EnterRockstar::Scraper::Wikia.new(
-          category_name: category_name,
-          url: url,
-          data_dir: '.'
-        )
-      end
+      let(:data_dir) { '.' }
 
       it 'saves a gzipped json file', :vcr do
         scraper.parse_category(test_limit: true)
