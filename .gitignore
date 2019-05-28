@@ -15,3 +15,7 @@
 # lyrics data
 lyrics/
 lyrics.zip
+
+# rspec temp for downloaded files
+spec/tmp/**
+!spec/tmp/.keep

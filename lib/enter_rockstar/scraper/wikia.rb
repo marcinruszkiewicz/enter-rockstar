@@ -77,7 +77,6 @@ module EnterRockstar
       end
 
       def parse_page(url, dirname)
-        puts url
         sleep SLEEP_BETWEEN_REQUESTS
         html = URI.parse(START_HOST + url).open
         doc = Nokogiri::HTML(html)
@@ -85,7 +84,10 @@ module EnterRockstar
         if doc.css('h2 span.mw-headline a').count.zero?
           # single album page listed on the category
           doc.css('div.mw-content-text ol li a').each do |song|
-            parse_song(song.attr('href'), dirname, song.text) if song&.attr('href')
+            next unless song&.attr('href')
+
+            lyrics = parse_song(song.attr('href'), dirname, song.text)
+            save_song("#{dirname}/#{song.text}.txt", lyrics) unless lyrics.nil?
           end
           puts
         else
@@ -100,7 +102,7 @@ module EnterRockstar
               next unless song&.attr('href')
 
               lyrics = parse_song(song.attr('href'), album_dirname, song.text)
-              save_song("#{album_dirname}/#{song.text}.txt", lyrics) if lyrics.present?
+              save_song("#{album_dirname}/#{song.text}.txt", lyrics) unless lyrics.nil?
             end
             puts
           end
