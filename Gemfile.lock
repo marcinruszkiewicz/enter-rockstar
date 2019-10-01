@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    enter-rockstar (0.1)
+    enter-rockstar (0.2)
       nokogiri
       progressbar
       thor
