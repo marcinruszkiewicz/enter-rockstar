@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/marcinruszkiewicz/enter-rockstar.svg?branch=master)](https://travis-ci.org/marcinruszkiewicz/enter-rockstar)
+[![Build Status](https://travis-ci.com/marcinruszkiewicz/enter-rockstar.svg?branch=master)](https://travis-ci.com/marcinruszkiewicz/enter-rockstar)
 [![Gem Version](https://badge.fury.io/rb/enter-rockstar.svg)](https://badge.fury.io/rb/enter-rockstar)
 
 # Enter Rockstar - a tool to help with programming in Rockstar
