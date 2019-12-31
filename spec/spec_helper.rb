@@ -17,7 +17,7 @@ VCR.configure do |config|
     record: :once
   }
   # config.cassette_persisters[:fakefs_persister] = VCR::FakeFS::FakeFSPersister.new
-      # c.default_cassette_options = { persist_with: :fakefs_persister }
+  # c.default_cassette_options = { persist_with: :fakefs_persister }
 end
 
 RSpec.configure do |config|

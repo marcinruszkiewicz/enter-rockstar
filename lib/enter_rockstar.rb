@@ -10,5 +10,4 @@ require 'enter_rockstar/generator/poetic'
 require 'pry'
 
 module EnterRockstar
-
 end

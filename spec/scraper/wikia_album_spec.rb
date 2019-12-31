@@ -73,7 +73,6 @@ RSpec.describe EnterRockstar::Scraper::Wikia do
     end
 
     xdescribe '#parse_all_pages' do
-
     end
   end
 end
