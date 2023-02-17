@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/marcinruszkiewicz/enter-rockstar.svg?branch=master)](https://travis-ci.com/marcinruszkiewicz/enter-rockstar)
+![Build Status](https://github.com/marcinruszkiewicz/enter-rockstar/actions/workflows/rspec.yml/badge.svg)
 [![Gem Version](https://badge.fury.io/rb/enter-rockstar.svg)](https://badge.fury.io/rb/enter-rockstar)
 
 # Enter Rockstar - a tool to help with programming in Rockstar
