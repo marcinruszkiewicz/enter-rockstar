@@ -13,6 +13,7 @@ Gem::Specification.new do |spec|
   spec.summary       = 'Generating helpful Rock phrases to make programming in Rockstar easier.'
   spec.homepage      = 'https://github.com/marcinruszkiewicz/enter-rockstar'
   spec.license       = 'MIT'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(spec|examples)/})
@@ -21,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.executables   = ['enter-rockstar']
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = '>= 2.3'
+  spec.required_ruby_version = '>= 3.0'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'fakefs'
